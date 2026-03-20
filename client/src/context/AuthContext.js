@@ -1,3 +1,4 @@
+const BASE_URL = process.env.REACT_APP_API_URL || "";
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -11,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      axios.get('/api/auth/me')
+      axios.get(`${BASE_URL}/api/auth/me`)
         .then(res => setUser(res.data))
         .catch(() => logout())
         .finally(() => setLoading(false));
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   const login = async (email, password) => {
-    const res = await axios.post('/api/auth/login', { email, password });
+    const res = await axios.post(`${BASE_URL}/api/auth/login`, { email, password });
     const { token: t, user: u } = res.data;
     localStorage.setItem('swp_token', t);
     axios.defaults.headers.common['Authorization'] = `Bearer ${t}`;
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signup = async (name, email, password) => {
-    const res = await axios.post('/api/auth/signup', { name, email, password });
+    const res = await axios.post(`${BASE_URL}/api/auth/signup`, { name, email, password });
     const { token: t, user: u } = res.data;
     localStorage.setItem('swp_token', t);
     axios.defaults.headers.common['Authorization'] = `Bearer ${t}`;

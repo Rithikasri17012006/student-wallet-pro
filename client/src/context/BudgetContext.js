@@ -1,3 +1,4 @@
+const BASE_URL = process.env.REACT_APP_API_URL || "";
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
@@ -15,7 +16,7 @@ export const BudgetProvider = ({ children }) => {
     if (!user) return;
     setLoadingExpenses(true);
     try {
-      const res = await axios.get('/api/expenses');
+      const res = await axios.get(`${BASE_URL}/api/expenses`);
       setExpenses(res.data.expenses);
     } catch (err) {
       console.error(err);
@@ -27,7 +28,7 @@ export const BudgetProvider = ({ children }) => {
   const fetchGoal = useCallback(async () => {
     if (!user) return;
     try {
-      const res = await axios.get('/api/goals');
+      const res = await axios.get(`${BASE_URL}/api/goals`);
       setGoal(res.data);
     } catch (err) {
       console.error(err);
@@ -37,7 +38,7 @@ export const BudgetProvider = ({ children }) => {
   const fetchAnalytics = useCallback(async () => {
     if (!user) return;
     try {
-      const res = await axios.get('/api/analytics');
+      const res = await axios.get(`${BASE_URL}/api/analytics`);
       setAnalytics(res.data);
     } catch (err) {
       console.error(err);

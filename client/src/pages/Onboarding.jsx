@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+const BASE_URL = process.env.REACT_APP_API_URL || "";
 
 const STEPS = [
   { title: "What's your name? 👋", sub: "Let's personalize your experience", fields: [{ key: 'name', placeholder: 'Your first name', type: 'text' }] },
@@ -28,9 +30,10 @@ const Onboarding = ({ onComplete }) => {
     setLoading(true);
     try {
       const a = +form.allowance, e = +form.essentials, d = +form.dailySpend;
-      await axios.post('/api/budget/setup', { monthlyAllowance: a, essentialExpenses: e, dailySpendEstimate: d });
+      await axios.post(`${BASE_URL}/api/budget/setup`, { monthlyAllowance: a, essentialExpenses: e, dailySpendEstimate: d });
       if (form.goalName && form.goalAmount) {
-        await axios.post('/api/goals', { goalName: form.goalName, goalAmount: +form.goalAmount });
+        await axios.post(`${BASE_URL}/api/goals`
+          , { goalName: form.goalName, goalAmount: +form.goalAmount });
       }
       updateUser({ budgetSetup: true, monthlyAllowance: a, essentialExpenses: e, dailySpendEstimate: d, flexibleBalance: a - e });
       toast.success("Budget set up! Let's go 🚀");

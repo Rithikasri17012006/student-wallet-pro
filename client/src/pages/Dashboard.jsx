@@ -1,5 +1,7 @@
+const BASE_URL = process.env.REACT_APP_API_URL || "";
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import { useBudget } from '../context/BudgetContext';
